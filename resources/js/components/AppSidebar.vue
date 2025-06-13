@@ -5,7 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { LayoutGrid, Settings, Wallet } from 'lucide-vue-next';
+import { LayoutGrid, PersonStanding, Settings, Wallet } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -18,6 +18,11 @@ const mainNavItems: NavItem[] = [
         title: 'Accounts',
         href: '/accounts',
         icon: Wallet,
+    },
+    {
+        title: 'Customers',
+        href: '/customers',
+        icon: PersonStanding,
     },
     {
         title: 'Company Settings',

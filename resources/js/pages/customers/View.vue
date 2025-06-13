@@ -9,20 +9,20 @@ import { ArrowLeft, Edit } from 'lucide-vue-next';
 const { goBack } = useGoBack();
 
 const props = defineProps({
-    account: Object,
-    accounts: Object,
+    customer: Object,
+    // customers: Object,
 });
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Accounts',
-        href: '/accounts',
+        title: 'customers',
+        href: '/customers',
     },
 ];
 
-function editAccount(id) {
+function editcustomer(id) {
     router.get(
-        route('accounts.edit', { account: id }),
+        route('customers.edit', { customer: id }),
         {},
         {
             preserveState: true,
@@ -33,16 +33,16 @@ function editAccount(id) {
 </script>
 
 <template>
-    <Head title="Account Info" />
+    <Head title="customer Info" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="space-y-4 p-6">
             <Card>
                 <CardContent>
                     <div class="flex items-center justify-between border-b p-4">
-                        <h2 class="flex-grow text-lg font-semibold">Account Info</h2>
+                        <h2 class="flex-grow text-lg font-semibold">Customer Info</h2>
                         <button
-                            v-if="props.account?.id"
-                            @click="editAccount(props.account.id)"
+                            v-if="props.customer?.id"
+                            @click="editcustomer(props.customer.id)"
                             class="mr-2 text-sm text-muted-light-green hover:text-light-green"
                         >
                             <component :is="Edit" />
@@ -51,31 +51,36 @@ function editAccount(id) {
                     </div>
 
                     <div class="space-y-6 p-4">
-                        <template v-if="props.account">
+                        <template v-if="props.customer">
                             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                                 <div>
-                                    <p class="text-sm text-muted-foreground">Account</p>
-                                    <p class="text-md font-medium">{{ props.account.account }}</p>
+                                    <p class="text-sm text-muted-foreground">Name</p>
+                                    <p class="text-md font-medium">{{ props.customer.name }}</p>
                                 </div>
 
                                 <div>
                                     <p class="text-sm text-muted-foreground">Currency</p>
-                                    <p class="text-md font-medium">{{ props.account.currency }}</p>
+                                    <p class="text-md font-medium">{{ props.customer.currency }}</p>
                                 </div>
 
                                 <div>
-                                    <p class="text-sm text-muted-foreground">Beneficiary</p>
-                                    <p class="text-md font-medium">{{ props.account.beneficiary }}</p>
+                                    <p class="text-sm text-muted-foreground">Email</p>
+                                    <p class="text-md font-medium">{{ props.customer.email }}</p>
                                 </div>
 
                                 <div>
-                                    <p class="text-sm text-muted-foreground">Intermediary</p>
-                                    <p class="text-md font-medium">{{ props.account.intermediary }}</p>
+                                    <p class="text-sm text-muted-foreground">Phone</p>
+                                    <p class="text-md font-medium">{{ props.customer.phone }}</p>
                                 </div>
 
                                 <div>
-                                    <p class="text-sm text-muted-foreground">Institution</p>
-                                    <p class="text-md font-medium">{{ props.account.institution }}</p>
+                                    <p class="text-sm text-muted-foreground">Country</p>
+                                    <p class="text-md font-medium">{{ props.customer.country }}</p>
+                                </div>
+
+                                <div>
+                                    <p class="text-sm text-muted-foreground">Address</p>
+                                    <p class="text-md font-medium">{{ props.customer.address }}</p>
                                 </div>
                             </div>
                         </template>

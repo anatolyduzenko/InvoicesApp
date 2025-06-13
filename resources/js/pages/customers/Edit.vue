@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { useGoBack } from '@/composables/useGoBack';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
@@ -12,67 +13,76 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { ArrowLeft, Save, Trash } from 'lucide-vue-next';
 import { FlattenAndSetPathsType, useForm } from 'vee-validate';
 import { computed, watchEffect } from 'vue';
+import { toast } from 'vue-sonner';
 import * as z from 'zod';
 
 const { goBack } = useGoBack();
 
 const props = defineProps({
-    account: Object,
-    accounts: Object,
+    customer: Object,
+    customers: Object,
 });
 
 const page = usePage();
 
 const formSchema = z.object({
-    intermediary: z.string().min(2).max(255).nonempty(),
-    institution: z.string().min(2).max(255).nonempty(),
-    beneficiary: z.string().min(2).max(255).nonempty(),
-    account: z.string().min(2).max(100),
+    name: z.string().min(2).max(255),
+    country: z.string().min(0).max(255),
+    address: z.string().min(0).max(255),
+    email: z.string().min(5).max(100),
+    phone: z.string().min(5).max(100),
     currency: z.coerce.string().min(3).max(5),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-const accountForm = useForm({
+const customerForm = useForm({
     validationSchema: toTypedSchema(formSchema),
     initialValues: {
-        intermediary: props.account?.intermediary ?? '',
-        institution: props.account?.institution ?? '',
-        beneficiary: props.account?.beneficiary ?? '',
-        account: props.account?.account ?? '',
-        currency: props.account?.currency ?? 'USD',
+        name: props.customer?.name ?? '',
+        address: props.customer?.address ?? '',
+        email: props.customer?.email ?? '',
+        phone: props.customer?.phone ?? '',
+        country: props.customer?.country ?? '',
+        currency: props.customer?.currency ?? 'USD',
     },
     initialErrors: page.props.errors as unknown as FlattenAndSetPathsType<FormValues, string>,
 });
 
-const onSubmit = accountForm.handleSubmit((values) => {
-    if (props.account?.id) {
-        router.put(route('accounts.update', props.account.id), values, {});
+const onSubmit = customerForm.handleSubmit((values) => {
+    if (props.customer?.id) {
+        router.put(route('customers.update', props.customer.id), values, {});
     } else {
-        router.post(route('accounts.store'), values, {});
+        router.post(route('customers.store'), values, {});
     }
 });
 
-const title = computed(() => (props.account?.id ? 'Edit Account' : 'New Account'));
+const title = computed(() => (props.customer?.id ? 'Edit customer' : 'New customer'));
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Accounts',
-        href: '/accounts',
+        title: 'customers',
+        href: '/customers',
     },
 ];
 
-function deleteAccount(id) {
-    router.delete(route('accounts.destroy', { account: id }), {});
+function deleteCustomer(id) {
+    router.delete(route('customers.destroy', { customer: id }), {});
 }
 
 watchEffect(() => {
     if (Object.keys(page.props.errors).length > 0) {
-        accountForm.setFieldError('intermediary', page.props.errors?.intermediary);
-        accountForm.setFieldError('institution', page.props.errors?.institution);
-        accountForm.setFieldError('account', page.props.errors?.account);
-        accountForm.setFieldError('beneficiary', page.props.errors?.beneficiary);
-        accountForm.setFieldError('currency', page.props.errors?.currency);
+        customerForm.setFieldError('name', page.props.errors?.name);
+        customerForm.setFieldError('address', page.props.errors?.address);
+        customerForm.setFieldError('email', page.props.errors?.email);
+        customerForm.setFieldError('phone', page.props.errors?.phone);
+        customerForm.setFieldError('currency', page.props.errors?.currency);
+        customerForm.setFieldError('country', page.props.errors?.country);
+    }
+
+    const success = page.props.flash?.success;
+    if (success) {
+        toast.success(success);
     }
 });
 </script>
@@ -85,11 +95,11 @@ watchEffect(() => {
                 <CardContent>
                     <div class="flex items-center justify-between border-b p-4">
                         <h2 class="flex-grow text-lg font-semibold">
-                            {{ props.account?.id ? 'Edit Account: ' + props.account.account : 'New Account' }}
+                            {{ props.customer?.id ? 'Edit customer: ' + props.customer.customer : 'New customer' }}
                         </h2>
                         <button
-                            v-if="props.account?.id"
-                            @click="deleteAccount(props.account.id)"
+                            v-if="props.customer?.id"
+                            @click="deleteCustomer(props.customer.id)"
                             class="mr-2 text-sm text-destructive hover:text-destructive-foreground"
                         >
                             <component :is="Trash" />
@@ -100,11 +110,11 @@ watchEffect(() => {
                     <div class="space-y-6 p-4">
                         <form @submit.prevent="onSubmit">
                             <div class="flex items-start justify-between">
-                                <FormField v-slot="{ componentField }" name="account">
+                                <FormField v-slot="{ componentField }" name="name">
                                     <FormItem class="grow pr-4">
-                                        <FormLabel>Account: </FormLabel>
+                                        <FormLabel>Customer's Name: </FormLabel>
                                         <FormControl>
-                                            <Input type="text" placeholder="Account" v-bind="componentField" />
+                                            <Input type="text" placeholder="Customer's Name" v-bind="componentField" />
                                         </FormControl>
                                         <FormDescription />
                                         <FormMessage />
@@ -130,38 +140,50 @@ watchEffect(() => {
                                     </FormItem>
                                 </FormField>
                             </div>
-                            <FormField v-slot="{ componentField }" name="intermediary">
+                            <FormField v-slot="{ componentField }" name="email">
                                 <FormItem>
-                                    <FormLabel>Intermediary: </FormLabel>
+                                    <FormLabel>Email: </FormLabel>
                                     <FormControl>
-                                        <Input type="text" placeholder="Intermediary" v-bind="componentField" />
+                                        <Input type="email" placeholder="Email Address" v-bind="componentField" />
                                     </FormControl>
                                     <FormDescription />
                                     <FormMessage />
                                 </FormItem>
                             </FormField>
-                            <FormField v-slot="{ componentField }" name="institution">
+                            <FormField v-slot="{ componentField }" name="phone">
                                 <FormItem>
-                                    <FormLabel>Institution: </FormLabel>
+                                    <FormLabel>Phone: </FormLabel>
                                     <FormControl>
-                                        <Input type="text" placeholder="Institution" v-bind="componentField" />
-                                    </FormControl>
-                                    <FormDescription />
-                                    <FormMessage />
-                                </FormItem>
-                            </FormField>
-                            <FormField v-slot="{ componentField }" name="beneficiary">
-                                <FormItem>
-                                    <FormLabel>Beneficiary: </FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="Beneficiary" v-bind="componentField" />
+                                        <Input type="tel" placeholder="Phone Number" v-bind="componentField" />
                                     </FormControl>
                                     <FormDescription />
                                     <FormMessage />
                                 </FormItem>
                             </FormField>
 
-                            <Button type="submit" class="mt-2 hover:text-light-green"><component :is="Save" />Save Account</Button>
+                            <FormField v-slot="{ componentField }" name="country">
+                                <FormItem>
+                                    <FormLabel>Country: </FormLabel>
+                                    <FormControl>
+                                        <Input type="text" placeholder="country" v-bind="componentField" />
+                                    </FormControl>
+                                    <FormDescription />
+                                    <FormMessage />
+                                </FormItem>
+                            </FormField>
+
+                            <FormField v-slot="{ componentField }" name="address">
+                                <FormItem>
+                                    <FormLabel>Address: </FormLabel>
+                                    <FormControl>
+                                        <Textarea placeholder="Address" v-bind="componentField" />
+                                    </FormControl>
+                                    <FormDescription />
+                                    <FormMessage />
+                                </FormItem>
+                            </FormField>
+
+                            <Button type="submit" class="mt-2 hover:text-light-green"><component :is="Save" />Save customer</Button>
                         </form>
                     </div>
                 </CardContent>

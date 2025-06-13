@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreAccountRequest;
-use App\Http\Requests\UpdateAccountRequest;
+use App\Http\Requests\Account\StoreAccountRequest;
+use App\Http\Requests\Account\UpdateAccountRequest;
 use App\Models\Account;
 use Inertia\Inertia;
 
@@ -24,9 +24,7 @@ class AccountController extends Controller
      */
     public function create()
     {
-        return Inertia::render('accounts/Edit', [
-            // 'account' => null,
-        ]);
+        return Inertia::render('accounts/Edit');
     }
 
     /**

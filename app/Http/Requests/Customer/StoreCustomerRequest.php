@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Customer;
 
 use App\Enums\Currency;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreAccountRequest extends FormRequest
+class StoreCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,11 @@ class StoreAccountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'intermediary' => 'required|string|max:255',
-            'institution' => 'required|string|max:255',
-            'beneficiary' => 'required|string|max:255',
-            'account' => 'required|string|max:100',
+            'name' => 'required|string|max:255',
+            'country' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'email' => 'required|email:filter',
+            'phone' => 'nullable|string|max:100',
             'currency' => [Rule::enum(Currency::class)],
         ];
     }
