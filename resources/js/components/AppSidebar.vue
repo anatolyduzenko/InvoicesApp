@@ -5,7 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, LayoutGrid, Wallet } from 'lucide-vue-next';
+import { LayoutGrid, Settings, Wallet } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -19,15 +19,14 @@ const mainNavItems: NavItem[] = [
         href: '/accounts',
         icon: Wallet,
     },
-];
-
-const footerNavItems: NavItem[] = [
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
+        title: 'Company Settings',
+        href: '/company-settings',
+        icon: Settings,
     },
 ];
+
+const footerNavItems: NavItem[] = [];
 </script>
 
 <template>
