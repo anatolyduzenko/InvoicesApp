@@ -88,7 +88,7 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        $invoice->delete();
+        $this->invoiceRepository->delete($invoice);
 
         return redirect()->route('invoices.index');
     }

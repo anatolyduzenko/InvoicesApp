@@ -11,6 +11,8 @@ interface InvoiceRepositoryInterface
 
     public function update(Invoice $invoice, array $data): Invoice;
 
+    public function delete(Invoice $invoice): void;
+
     public function clone(Invoice $invoice): Invoice;
 
     public function getById(int $id, array $with = []): ?Invoice;

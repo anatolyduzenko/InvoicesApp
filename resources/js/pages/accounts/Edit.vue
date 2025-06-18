@@ -161,7 +161,7 @@ watchEffect(() => {
                                 </FormItem>
                             </FormField>
 
-                            <Button type="submit" class="mt-2 hover:text-light-green"><component :is="Save" />Save Account</Button>
+                            <Button type="submit" class="mt-2 hover:text-light-green hover:cursor-pointer"><component :is="Save" />Save Account</Button>
                         </form>
                     </div>
                 </CardContent>

@@ -48,6 +48,14 @@ final class InvoiceRepository implements InvoiceRepositoryInterface
         });
     }
 
+    public function delete(Invoice $invoice): void
+    {
+        DB::transaction(function () use ($invoice) {
+            $invoice->items()->delete();
+            $invoice->delete();
+        });
+    }
+
     public function clone(Invoice $invoice): Invoice
     {
         return DB::transaction(function () use ($invoice) {
