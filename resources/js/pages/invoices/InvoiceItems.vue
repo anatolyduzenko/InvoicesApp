@@ -51,7 +51,7 @@ function removeItem(index) {
     <div class="mt-2 pt-2">
         <div v-if="!disableEditing" class="">
             <FormControl>
-                <Button type="button" variant="outline" @click="openEditItemDialog({})" class="text-sm text-muted-light-green hover:text-light-green">
+                <Button type="button" variant="outline" @click="openEditItemDialog({})" class="text-sm text-muted-light-green hover:text-light-green hover:cursor-pointer">
                     <component :is="ReceiptText" />Add New Item
                 </Button>
             </FormControl>

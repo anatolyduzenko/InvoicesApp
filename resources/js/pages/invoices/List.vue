@@ -71,8 +71,9 @@ const loadInvoices = async (page = 1) => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="space-y-4 p-6">
-            <div class="space-y-2 border-b pb-4">
-                <Button @click="addInvoice" class="text-sm text-muted hover:text-light-green"><component :is="ReceiptText" />Add New</Button>
+            <div class="space-y-2 flex justify-between border-b pb-4 pl-2">
+                <h2 class="text-xl font-bold">Invoices</h2>
+                <Button @click="addInvoice" class="text-sm text-muted hover:text-light-green hover:cursor-pointer"><component :is="ReceiptText" />Add New</Button>
             </div>
             <Table>
                 <TableHeader>

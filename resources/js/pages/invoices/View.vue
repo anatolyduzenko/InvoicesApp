@@ -49,11 +49,11 @@ const title = computed(() => (props.invoice?.id ? 'Invoice ' + props.invoice?.nu
                         <button
                             v-if="props.invoice?.id"
                             @click="editinvoice(props.invoice.id)"
-                            class="mr-2 text-sm text-muted-light-green hover:text-light-green"
+                            class="mr-2 text-sm text-muted-light-green hover:text-light-green hover:cursor-pointer"
                         >
                             <component :is="Edit" />
                         </button>
-                        <button @click="goBack" class="text-sm text-muted-foreground hover:text-foreground"><component :is="ArrowLeft" /></button>
+                        <button @click="goBack" class="text-sm text-muted-foreground hover:text-foreground hover:cursor-pointer"><component :is="ArrowLeft" /></button>
                     </div>
 
                     <div class="space-y-6 p-4">

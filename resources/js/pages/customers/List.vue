@@ -46,8 +46,9 @@ function addCustomer() {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="space-y-4 p-6">
-            <div class="space-y-2 border-b pb-4">
-                <Button @click="addCustomer" class="text-sm text-muted hover:text-light-green"><component :is="PersonStanding" />Add New</Button>
+            <div class="space-y-2 flex justify-between border-b pb-4 pl-2">
+                <h2 class="text-xl font-bold">Customers</h2>
+                <Button @click="addCustomer" class="text-sm text-muted hover:text-light-green hover:cursor-pointer"><component :is="PersonStanding" />Add New</Button>
             </div>
             <Table>
                 <TableHeader>

@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/input';
 import * as z from 'zod';
 import { watch, computed } from 'vue';
 import { useForm } from 'vee-validate';
+import { Save } from 'lucide-vue-next';
 
 const props = defineProps({
     item: Object,
@@ -75,12 +76,13 @@ watch(
     { immediate: true, deep: true }
 );
 
+const title = computed(() => (props.item?.id ? 'Edit item' : 'New item'));
 </script>
 <template>
     <Dialog v-model:open="isOpen" >
         <DialogContent class="sm:max-w-[425px]">
             <DialogHeader>
-            <DialogTitle>Add new item</DialogTitle>
+            <DialogTitle>{{ title }}</DialogTitle>
             <DialogDescription>
                 Please add services description.
             </DialogDescription>
@@ -147,7 +149,8 @@ watch(
             <!-- </Form> -->
             <DialogFooter>
                 <DialogClose as-child>
-                    <Button type="submit" form="itemForm">
+                    <Button type="submit" form="itemForm" class="hover:text-light-green hover:cursor-pointer">
+                        <component :is="Save" />
                         Save changes
                     </Button>
                 </DialogClose>

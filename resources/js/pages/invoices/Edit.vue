@@ -187,11 +187,11 @@ const total_amount = computed({
                         <button
                             v-if="props.invoice?.id"
                             @click="deleteInvoice(props.invoice.id)"
-                            class="mr-2 text-sm text-destructive hover:text-destructive-foreground"
+                            class="mr-2 text-sm text-destructive hover:text-destructive-foreground hover:cursor-pointer"
                         >
                             <component :is="Trash" />
                         </button>
-                        <button @click="goBack()" class="text-sm text-muted-foreground hover:text-foreground"><component :is="ArrowLeft" /></button>
+                        <button @click="goBack()" class="text-sm text-muted-foreground hover:text-foreground hover:cursor-pointer"><component :is="ArrowLeft" /></button>
                     </div>
 
                     <div class="space-y-6 p-4">
@@ -304,7 +304,7 @@ const total_amount = computed({
                                     <FormMessage />
                                 </FormItem>
                             </FormField>
-                            <Button type="submit" class="mt-6 hover:text-light-green"><component :is="Save" />Save Invoice</Button>
+                            <Button type="submit" class="mt-6 hover:text-light-green hover:cursor-pointer"><component :is="Save" />Save Invoice</Button>
                         </form>
                     </div>
                 </CardContent>

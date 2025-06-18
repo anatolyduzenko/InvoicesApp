@@ -92,9 +92,9 @@ function handleFileChange(event: Event) {
     <Head title="Company Settings" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="space-y-6 p-6">
-            <div class="flex items-center justify-between border-b p-4">
+            <div class="flex items-center justify-between border-b pb-4 pr-4">
                 <h2 class="text-xl font-bold">Company Settings</h2>
-                <button @click="goBack()" class="text-sm text-muted-foreground hover:text-foreground"><component :is="ArrowLeft" /></button>
+                <button @click="goBack()" class="text-sm text-muted-foreground hover:text-foreground hover:cursor-pointer"><component :is="ArrowLeft" /></button>
             </div>
             <form @submit.prevent="onSubmit">
                 <FormField v-slot="{ componentField }" name="company_name">
@@ -158,7 +158,7 @@ function handleFileChange(event: Event) {
                         <FormMessage />
                     </FormItem>
                 </FormField>
-                <Button type="submit" class="mt-2 hover:text-light-green"><component :is="Save" />Save</Button>
+                <Button type="submit" class="mt-2 hover:text-light-green hover:cursor-pointer"><component :is="Save" />Save</Button>
             </form>
         </div>
     </AppLayout>

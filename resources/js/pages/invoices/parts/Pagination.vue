@@ -25,10 +25,10 @@ const emit = defineEmits(['change']);
         @update:page="emit('change', $event)"
     >
         <PaginationContent v-slot="{ items }">
-            <PaginationPrevious />
+            <PaginationPrevious class="hover:cursor-pointer" />
 
             <template v-for="(item, index) in items" :key="index">
-                <PaginationItem
+                <PaginationItem class="hover:cursor-pointer"
                 v-if="item.type === 'page'"
                 :value="item.value"
                 :is-active="item.value === page"
@@ -37,7 +37,7 @@ const emit = defineEmits(['change']);
                 </PaginationItem>
             </template>
 
-            <PaginationNext />
+            <PaginationNext class="hover:cursor-pointer"/>
         </PaginationContent>
     </Pagination>
 </template>

@@ -5,6 +5,9 @@ use App\Http\Controllers\CompanySettingsController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InvoiceCloneController;
 use App\Http\Controllers\InvoiceController;
+use App\Models\Account;
+use App\Models\Customer;
+use App\Models\Invoice;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -13,7 +16,11 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'total_accounts' => Account::count(),
+        'total_customers' => Customer::count(),
+        'total_invoices' => Invoice::count(),
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {

@@ -36,7 +36,7 @@ const internalValue = computed({
                 <Button
                     variant="outline"
                     :class="cn(
-                    'justify-start text-left font-normal',
+                    'justify-start text-left font-normal hover:cursor-pointer',
                     !internalValue && 'text-muted-foreground',
                     )"
                 >
