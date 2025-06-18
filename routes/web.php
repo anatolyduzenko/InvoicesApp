@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CompanySettingsController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,6 +18,10 @@ Route::get('dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('accounts', AccountController::class);
     Route::resource('customers', CustomerController::class);
+
+    Route::resource('invoices', InvoiceController::class);
+
+    // Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
 
     Route::get('/company-settings', [CompanySettingsController::class, 'show'])->name('company-settings.show');
     Route::post('/company-settings', [CompanySettingsController::class, 'update'])->name('company-settings.update');
