@@ -8,17 +8,20 @@ use App\Models\Account;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Repositories\InvoiceRepository;
 use Inertia\Inertia;
 
 class InvoiceController extends Controller
 {
+    public function __construct(protected InvoiceRepository $invoiceRepository) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         return Inertia::render('invoices/List', [
-            'invoices' => Invoice::with(['account', 'customer'])->paginate(20),
+            'invoices' => $this->invoiceRepository->getAll(with: ['account', 'customer'], perPage: 15),
         ]);
     }
 
@@ -33,7 +36,7 @@ class InvoiceController extends Controller
             'accounts' => Account::all(),
             'company' => $company,
             'customers' => Customer::all(),
-            'invoice' => ['number' => Invoice::generateInvoiceNumber(), 'company_id' => $company->id],
+            'invoice' => ['number' => Invoice::generateInvoiceNumber(), 'company_id' => $company->id, 'items' => []],
         ]);
     }
 
@@ -42,7 +45,8 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        // create invoice
+        $this->invoiceRepository->store($request->validated());
+
         return redirect()->route('invoices.index');
     }
 
@@ -74,7 +78,7 @@ class InvoiceController extends Controller
      */
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
-        $invoice->update($request->validated());
+        $this->invoiceRepository->update($invoice, $request->validated());
 
         return redirect()->route('invoices.index')->with('success', 'Invoice edited successfully!');
     }

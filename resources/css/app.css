@@ -59,6 +59,8 @@
 
     --color-light-green: var(--light-green);
     --color-muted-light-green: var(--muted-light-green);
+    --color-light-blue: var(--light-blue);
+    --color-muted-light-blue: var(--muted-light-blue);
 }
 
 /*
@@ -124,6 +126,8 @@
     --sidebar: hsl(0 0% 98%);
     --muted-light-green: hsl(173, 60%, 46%);
     --light-green: hsl(173, 75%, 54%);
+    --muted-light-blue: hsl(200, 73%, 35%);
+    --light-blue: hsl(200, 85%, 55%);
 }
 
 .dark {
@@ -162,6 +166,8 @@
     --sidebar: hsl(240 5.9% 10%);
     --muted-light-green: hsl(173, 79%, 38%);
     --light-green: hsl(173, 75%, 50%);
+    --muted-light-blue: hsl(200, 73%, 35%);
+    --light-blue: hsl(200, 85%, 55%);
 }
 
 @layer base {

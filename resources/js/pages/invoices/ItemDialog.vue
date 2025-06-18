@@ -39,7 +39,7 @@ const formSchema = toTypedSchema(z.object({
 const itemForm = useForm({
     validationSchema: formSchema,
     initialValues: {
-        id: props.item?.id ?? Math.ceil(Math.random()*1000000),
+        id: props.item?.id ?? 10000000000 + Math.ceil(Math.random()*1000000),
         description: props.item?.description ?? '',
         unit: props.item?.unit ?? 'hour',
         price: props.item?.price ?? 0,
@@ -48,9 +48,8 @@ const itemForm = useForm({
 })
 
 const onSubmit = itemForm.handleSubmit((values: any) => {
-    const id = props.item.value?.id ?? Math.ceil(Math.random()*1000000);
+    const id = props.item?.id ?? 10000000000 + Math.ceil(Math.random()*1000000);
     const amount = values.price * values.qty;
-    // props.item.value = ;
     emit('item-added', {...values, amount, id});
     emit('update:open', false);
 });

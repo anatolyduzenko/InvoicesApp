@@ -4,7 +4,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
-import { Edit, Receipt, ReceiptPoundSterling, ReceiptText, ReceiptEuro } from 'lucide-vue-next';
+import { Edit, Receipt, ReceiptPoundSterling, ReceiptText, ReceiptEuro, Copy } from 'lucide-vue-next';
+import Pagination from './parts/Pagination.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -29,20 +30,9 @@ function addInvoice() {
     );
 }
 
-function editInvoice(id) {
+function navigateToInvoice(action: string, id) {
     router.get(
-        route('invoices.edit', { invoice: id }),
-        {},
-        {
-            preserveState: true,
-            preserveScroll: true,
-        },
-    );
-}
-
-function openInvoice(id) {
-    router.get(
-        route('invoices.show', { invoice: id }),
+        route(`invoices.${action}`, { invoice: id }),
         {},
         {
             preserveState: true,
@@ -60,10 +50,24 @@ const currencyIcons = {
 function getCurrencyIcon(currency: string) {
     return currencyIcons[currency] ?? ReceiptText;
 }
+
+const loadInvoices = async (page = 1) => {
+    router.get(
+        route('invoices.index'),
+        {
+            // ...searchParams.value,
+            page,
+        },
+        {
+            preserveScroll: true,
+            preserveState: true,
+        },
+    );
+};
 </script>
 
 <template>
-    <Head title="invoices" />
+    <Head title="Invoices" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="space-y-4 p-6">
@@ -79,6 +83,7 @@ function getCurrencyIcon(currency: string) {
                         <TableHead>Issue Date</TableHead>
                         <TableHead>Due Date</TableHead>
                         <TableHead>Amount</TableHead>
+                        <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -87,7 +92,7 @@ function getCurrencyIcon(currency: string) {
                         :key="invoice.id"
                         class="cursor-pointer hover:bg-muted/50"
                     >
-                        <TableCell @click="openInvoice(invoice.id)">
+                        <TableCell @click="navigateToInvoice('show', invoice.id)">
                             <component
                                 :is="getCurrencyIcon(invoice.account.currency)"
                                 class="w-4 h-4 inline-block text-muted-foreground mr-1"
@@ -95,15 +100,19 @@ function getCurrencyIcon(currency: string) {
                             <span 
                                 >{{ invoice.number }}</span>
                         </TableCell>
-                        <TableCell @click="openInvoice(invoice.id)">{{ invoice.customer.name }}</TableCell>
-                        <TableCell @click="openInvoice(invoice.id)">{{ invoice.status }}</TableCell>
-                        <TableCell @click="openInvoice(invoice.id)">{{ invoice.issue_date }}</TableCell>
-                        <TableCell @click="openInvoice(invoice.id)">{{ invoice.due_date }}</TableCell>
-                        <TableCell @click="openInvoice(invoice.id)">{{ invoice.total_amount }}</TableCell>
-                        <TableCell @click="editInvoice(invoice.id)"><component :is="Edit"/></TableCell>
+                        <TableCell @click="navigateToInvoice('show', invoice.id)">{{ invoice.customer.name }}</TableCell>
+                        <TableCell @click="navigateToInvoice('show', invoice.id)">{{ invoice.status }}</TableCell>
+                        <TableCell @click="navigateToInvoice('show', invoice.id)">{{ invoice.issue_date }}</TableCell>
+                        <TableCell @click="navigateToInvoice('show', invoice.id)">{{ invoice.due_date }}</TableCell>
+                        <TableCell @click="navigateToInvoice('show', invoice.id)">{{ invoice.total_amount }}</TableCell>
+                        <TableCell class="grid grid-cols-2">
+                            <component class="text-muted-light-green" :is="Edit" @click="navigateToInvoice('edit', invoice.id)"/>
+                            <component class="text-muted-light-blue" :is="Copy" @click="navigateToInvoice('clone', invoice.id)"/>
+                        </TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
+            <Pagination :pagination="props.invoices" @change="loadInvoices"/>
         </div>
     </AppLayout>
 </template>

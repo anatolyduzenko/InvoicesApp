@@ -22,6 +22,7 @@ const isDialogOpen = ref(false);
 
 function addNewOrEditItem(processingItem) {
     const index = items.value.findIndex(i => i.id === processingItem.id);
+    console.log(index, items,  processingItem);
     if (index !== -1) {
         items.value[index] = processingItem;
     } else {

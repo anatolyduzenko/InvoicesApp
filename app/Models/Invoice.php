@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -21,6 +20,7 @@ class Invoice extends Model
         'issue_date',
         'due_date',
         'company_id',
+        'account_id',
         'customer_id',
         'total_amount',
     ];
@@ -40,31 +40,25 @@ class Invoice extends Model
         return $this->hasMany(InvoiceItem::class);
     }
 
-    // protected static function boot()
-    // {
-    //     parent::boot();
+    public function scopeStatus($query, string $status)
+    {
+        return $query->where('status', $status);
+    }
 
-    //     static::creating(function ($invoice) {
-    //         if (!$invoice->number) {
-    //             $invoice->number = self::generateInvoiceNumber();
-    //         }
-    //         if(!$invoice->company_id) {
-    //             $invoice->company_id = Company::first()->id;
-    //         }
-    //         if(!$invoice->customer_id) {
-    //             $invoice->customer_id = Customer::first()->id;
-    //         }
-    //         if(!$invoice->account_id) {
-    //             $invoice->account_id = Account::first()->id;
-    //         }
-    //         if (!$invoice->issue_date) {
-    //             $invoice->issue_date = Carbon::now()->format('Y-m-d');
-    //         }
-    //         if (!$invoice->due_date) {
-    //             $invoice->due_date = Carbon::now()->format('Y-m-d');
-    //         }
-    //     });
-    // }
+    public function scopeForCustomer($query, int $customerId)
+    {
+        return $query->where('customer_id', $customerId);
+    }
+
+    public function scopeIssueDate($query, string $date)
+    {
+        return $query->whereDate('issue_date', '>=', $date);
+    }
+
+    public function scopeDueDate($query, string $date)
+    {
+        return $query->whereDate('due_date', '>=', $date);
+    }
 
     public static function generateInvoiceNumber(): string
     {

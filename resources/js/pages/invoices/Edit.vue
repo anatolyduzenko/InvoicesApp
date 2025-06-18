@@ -59,6 +59,7 @@ const formSchema = z.object({
             qty: z.number().min(1, 'Quantity must be at least 1'),
             unit: z.string().min(1, 'Unit type must be set'),
             price: z.number().min(0, 'Price must be non-negative'),
+            amount: z.number().min(0, 'Amount must be non-negative'),
         })
     ).min(1, 'At least one item is required'),
 });
@@ -104,7 +105,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 function deleteInvoice(id) {
-    router.delete(route('invoices.destroy', { customer: id }), {});
+    router.delete(route('invoices.destroy', { invoice: id }), {});
 }
 
 watchEffect(() => {
