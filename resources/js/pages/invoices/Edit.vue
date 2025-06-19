@@ -104,7 +104,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function deleteInvoice(id) {
+function deleteInvoice(id: any) {
     router.delete(route('invoices.destroy', { invoice: id }), {});
 }
 
@@ -137,7 +137,7 @@ const idToEntityMap = {
 
 Object.values(idToEntityMap).forEach(({ source, target, list }) => {
     watch(source, (id) => {
-        target.value = list.find((item) => item.id === id) ?? null;
+        target.value = list?.find((item: any) => item.id === id) ?? null;
     }, { immediate: true });
 });
 
@@ -151,7 +151,7 @@ watch(
 );
 
 watch(
-    () => page.props.invoice.items,
+    () => page.props?.invoice?.items,
     (items) => {
         invoiceForm.setFieldValue('items', items);
     },
@@ -219,7 +219,7 @@ const total_amount = computed({
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent>
-                                                        <SelectItem v-for="customer in page.props.customers" :key="customer.id" :value="Number(customer.id)"> {{ customer.name }} </SelectItem>
+                                                        <SelectItem v-for="customer in page.props?.customers" :key="customer.id" :value="Number(customer.id)"> {{ customer.name }} </SelectItem>
                                                     </SelectContent>
                                                 </Select>
                                                 <FormDescription />

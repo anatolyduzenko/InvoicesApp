@@ -20,7 +20,7 @@ const editingItem = ref({});
 const items = ref([...props.items]);
 const isDialogOpen = ref(false);
 
-function addNewOrEditItem(processingItem) {
+function addNewOrEditItem(processingItem: any) {
     const index = items.value.findIndex(i => i.id === processingItem.id);
     console.log(index, items,  processingItem);
     if (index !== -1) {
@@ -36,12 +36,12 @@ function addNewOrEditItem(processingItem) {
     isDialogOpen.value = false;
 }
 
-function openEditItemDialog(item) {
+function openEditItemDialog(item: any) {
     editingItem.value = { ...item }; 
     isDialogOpen.value = true;
 }
 
-function removeItem(index) {
+function removeItem(index: any) {
     items.value.splice(index, 1);
     emit('update:items', [...items.value]);
 }

@@ -62,7 +62,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function deleteAccount(id) {
+function deleteAccount(id: any) {
     router.delete(route('accounts.destroy', { account: id }), {});
 }
 

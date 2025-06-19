@@ -23,7 +23,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function editinvoice(id) {
+function editinvoice(id: any) {
     router.get(
         route('invoices.edit', { invoice: id }),
         {},

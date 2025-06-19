@@ -74,17 +74,16 @@ final class InvoiceRepository implements InvoiceRepositoryInterface
         });
     }
 
-    public function getById(int $id, array $with = []): ?Invoice
-    {
-        return Invoice::with($with)->find($id);
-    }
-
     public function getAll(array $filters = [], array $with = [], $perPage = 20): LengthAwarePaginator
     {
         $query = Invoice::with($with)->latest();
 
         if (isset($filters['status'])) {
             $query->status($filters['status']);
+        }
+
+        if (isset($filters['account_id'])) {
+            $query->forCustomer($filters['customer_id']);
         }
 
         if (isset($filters['customer_id'])) {

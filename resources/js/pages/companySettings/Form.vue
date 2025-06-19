@@ -73,7 +73,7 @@ watchEffect(() => {
     companySettingsForm.setFieldError('company_terms', page.props.errors?.company_terms);
     companySettingsForm.setFieldError('logo', page.props.errors?.logo);
 
-    const success = page.props.flash?.success;
+    const success = page.props?.flash?.success;
     if (success) {
         toast.success(success);
     }

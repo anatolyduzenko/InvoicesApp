@@ -15,7 +15,5 @@ interface InvoiceRepositoryInterface
 
     public function clone(Invoice $invoice): Invoice;
 
-    public function getById(int $id, array $with = []): ?Invoice;
-
     public function getAll(array $filters = [], array $with = []): LengthAwarePaginator;
 }

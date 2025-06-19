@@ -22,4 +22,9 @@ class Customer extends Model
         'phone',
         'currency',
     ];
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }

@@ -20,7 +20,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function editAccount(id) {
+function editAccount(id: any) {
     router.get(
         route('accounts.edit', { account: id }),
         {},

@@ -17,11 +17,11 @@ const emit = defineEmits(['change']);
 <template>
     <Pagination
         v-slot="{ page }"
-        :items-per-page="props.pagination.per_page"
-        :total="props.pagination.total"
+        :items-per-page="props.pagination?.per_page"
+        :total="props.pagination?.total"
         :sibling-count="1"
         show-edges
-        :default-page="props.pagination.current_page"
+        :default-page="props.pagination?.current_page"
         @update:page="emit('change', $event)"
     >
         <PaginationContent v-slot="{ items }">

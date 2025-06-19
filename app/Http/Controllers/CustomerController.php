@@ -5,17 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Customer\StoreCustomerRequest;
 use App\Http\Requests\Customer\UpdateCustomerRequest;
 use App\Models\Customer;
+use App\Repositories\CustomerRepository;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
 {
+    public function __construct(protected CustomerRepository $customerRepository) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         return Inertia::render('customers/List', [
-            'customers' => Customer::all(),
+            'customers' => $this->customerRepository->getAll(),
         ]);
     }
 
@@ -32,7 +35,7 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
-        Customer::create($request->validated());
+        $this->customerRepository->store($request->validated());
 
         return redirect()->route('customers.index');
     }
@@ -62,7 +65,7 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        $customer->update($request->validated());
+        $this->customerRepository->update($customer, $request->validated());
 
         return redirect()->route('customers.show', $customer);
     }
@@ -72,7 +75,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        $customer->delete();
+        $this->customerRepository->delete($customer);
 
         return redirect()->route('customers.index');
     }

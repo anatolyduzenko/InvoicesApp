@@ -5,7 +5,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { Edit, Receipt, ReceiptPoundSterling, ReceiptText, ReceiptEuro, Copy } from 'lucide-vue-next';
-import Pagination from './parts/Pagination.vue';
+import Pagination from '../../components/Pagination.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -30,7 +30,7 @@ function addInvoice() {
     );
 }
 
-function navigateToInvoice(action: string, id) {
+function navigateToInvoice(action: string, id: any) {
     router.get(
         route(`invoices.${action}`, { invoice: id }),
         {},
@@ -42,9 +42,9 @@ function navigateToInvoice(action: string, id) {
 }
 
 const currencyIcons = {
-    USD: Receipt,
-    EUR: ReceiptEuro,
-    GBP: ReceiptPoundSterling,
+    'USD': Receipt,
+    'EUR': ReceiptEuro,
+    'GBP': ReceiptPoundSterling,
 };
 
 function getCurrencyIcon(currency: string) {
@@ -89,7 +89,7 @@ const loadInvoices = async (page = 1) => {
                 </TableHeader>
                 <TableBody>
                     <TableRow
-                        v-for="invoice in props.invoices.data"
+                        v-for="invoice in props.invoices?.data"
                         :key="invoice.id"
                         class="cursor-pointer hover:bg-muted/50"
                     >
@@ -113,7 +113,7 @@ const loadInvoices = async (page = 1) => {
                     </TableRow>
                 </TableBody>
             </Table>
-            <Pagination :pagination="props.invoices" @change="loadInvoices"/>
+            <Pagination v-if="props?.invoices?.last_page > 1"  :pagination="props?.invoices" @change="loadInvoices"/>
         </div>
     </AppLayout>
 </template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Pagination from '@/components/Pagination.vue';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
@@ -18,7 +19,7 @@ const props = defineProps({
     accounts: Object,
 });
 
-function openAccount(id) {
+function openAccount(id: any) {
     router.get(
         route('accounts.show', { account: id }),
         {},
@@ -39,6 +40,20 @@ function addAccount() {
         },
     );
 }
+
+const loadAccounts = async (page = 1) => {
+    router.get(
+        route('accounts.index'),
+        {
+            // ...searchParams.value,
+            page,
+        },
+        {
+            preserveScroll: true,
+            preserveState: true,
+        },
+    );
+};
 </script>
 
 <template>
@@ -60,7 +75,7 @@ function addAccount() {
                 </TableHeader>
                 <TableBody>
                     <TableRow
-                        v-for="account in props.accounts"
+                        v-for="account in props.accounts?.data"
                         :key="account.id"
                         @click="openAccount(account.id)"
                         class="cursor-pointer hover:bg-muted/50"
@@ -71,6 +86,7 @@ function addAccount() {
                     </TableRow>
                 </TableBody>
             </Table>
+            <Pagination v-if="props?.accounts?.last_page > 1" :pagination="props?.accounts" @change="loadAccounts" />
         </div>
     </AppLayout>
 </template>

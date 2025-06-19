@@ -21,7 +21,7 @@ class InvoiceController extends Controller
     public function index()
     {
         return Inertia::render('invoices/List', [
-            'invoices' => $this->invoiceRepository->getAll(with: ['account', 'customer'], perPage: 15),
+            'invoices' => $this->invoiceRepository->getAll(with: ['account', 'customer'], perPage: 10),
         ]);
     }
 

@@ -5,17 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Account\StoreAccountRequest;
 use App\Http\Requests\Account\UpdateAccountRequest;
 use App\Models\Account;
+use App\Repositories\AccountRepository;
 use Inertia\Inertia;
 
 class AccountController extends Controller
 {
+    public function __construct(protected AccountRepository $accountRepository) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         return Inertia::render('accounts/List', [
-            'accounts' => Account::all(),
+            'accounts' => $this->accountRepository->getAll(),
         ]);
     }
 
@@ -32,7 +35,7 @@ class AccountController extends Controller
      */
     public function store(StoreAccountRequest $request)
     {
-        Account::create($request->validated());
+        $this->accountRepository->store($request->validated());
 
         return redirect()->route('accounts.index');
     }
@@ -62,7 +65,7 @@ class AccountController extends Controller
      */
     public function update(UpdateAccountRequest $request, Account $account)
     {
-        $account->update($request->validated());
+        $this->accountRepository->update($account, $request->validated());
 
         return redirect()->route('accounts.show', $account);
     }
@@ -72,7 +75,7 @@ class AccountController extends Controller
      */
     public function destroy(Account $account)
     {
-        $account->delete();
+        $this->accountRepository->delete($account);
 
         return redirect()->route('accounts.index');
     }

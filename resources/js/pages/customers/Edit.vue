@@ -66,7 +66,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function deleteCustomer(id) {
+function deleteCustomer(id: any) {
     router.delete(route('customers.destroy', { customer: id }), {});
 }
 

@@ -18,7 +18,7 @@ const props = defineProps({
     customers: Object,
 });
 
-function openCustomer(id) {
+function openCustomer(id: any) {
     router.get(
         route('customers.show', { customer: id }),
         {},
@@ -39,6 +39,20 @@ function addCustomer() {
         },
     );
 }
+
+const loadCustomers = async (page = 1) => {
+    router.get(
+        route('customers.index'),
+        {
+            // ...searchParams.value,
+            page,
+        },
+        {
+            preserveScroll: true,
+            preserveState: true,
+        },
+    );
+};
 </script>
 
 <template>
@@ -60,7 +74,7 @@ function addCustomer() {
                 </TableHeader>
                 <TableBody>
                     <TableRow
-                        v-for="customer in props.customers"
+                        v-for="customer in props.customers?.data"
                         :key="customer.id"
                         @click="openCustomer(customer.id)"
                         class="cursor-pointer hover:bg-muted/50"
@@ -71,6 +85,7 @@ function addCustomer() {
                     </TableRow>
                 </TableBody>
             </Table>
+            <Pagination v-if="props?.customers?.last_page > 1" :pagination="props?.customers" @change="loadCustomers" />
         </div>
     </AppLayout>
 </template>
