@@ -33,7 +33,7 @@ function editcustomer(id: any) {
 </script>
 
 <template>
-    <Head title="customer Info" />
+    <Head title="Customer Info" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="space-y-4 p-6">
             <Card>

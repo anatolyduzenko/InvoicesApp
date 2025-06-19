@@ -30,6 +30,11 @@ class Invoice extends Model
         return $this->belongsTo(Account::class)->withTrashed();
     }
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class)->withTrashed();
+    }
+    
     public function customer()
     {
         return $this->belongsTo(Customer::class)->withTrashed();

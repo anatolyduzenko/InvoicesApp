@@ -5,6 +5,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { PersonStanding } from 'lucide-vue-next';
+import Pagination from '@/components/Pagination.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -53,6 +54,8 @@ const loadCustomers = async (page = 1) => {
         },
     );
 };
+
+console.log(props)
 </script>
 
 <template>
