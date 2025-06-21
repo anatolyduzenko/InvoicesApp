@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
-import { Edit, Receipt, ReceiptPoundSterling, ReceiptText, ReceiptEuro, Copy } from 'lucide-vue-next';
+import { Edit, Receipt, ReceiptPoundSterling, ReceiptText, ReceiptEuro, Copy, Printer, Save } from 'lucide-vue-next';
 import Pagination from '../../components/Pagination.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -64,6 +64,16 @@ const loadInvoices = async (page = 1) => {
         },
     );
 };
+
+function viewInvoice(id: any) {
+    const url = route('invoices.preview', { invoice: id });
+    window.open(url, '_blank');
+}
+
+function downloadInvoice(id: any) {
+    const url = route('invoices.download', { invoice: id });
+    window.open(url, '_blank');
+}
 </script>
 
 <template>
@@ -106,9 +116,11 @@ const loadInvoices = async (page = 1) => {
                         <TableCell @click="navigateToInvoice('show', invoice.id)">{{ invoice.issue_date }}</TableCell>
                         <TableCell @click="navigateToInvoice('show', invoice.id)">{{ invoice.due_date }}</TableCell>
                         <TableCell @click="navigateToInvoice('show', invoice.id)">{{ invoice.total_amount }}</TableCell>
-                        <TableCell class="grid grid-cols-2">
-                            <component class="text-muted-light-green" :is="Edit" @click="navigateToInvoice('edit', invoice.id)"/>
-                            <component class="text-muted-light-blue" :is="Copy" @click="navigateToInvoice('clone', invoice.id)"/>
+                        <TableCell class="grid grid-cols-4">
+                            <component class="w-5 text-muted-light-green" :is="Edit" @click="navigateToInvoice('edit', invoice.id)"/>
+                            <component class="w-5 text-sm text-muted-foreground hover:text-foreground hover:cursor-pointer" :is="Printer" @click="viewInvoice(invoice.id)"/>
+                            <component class="w-5 text-sm text-muted-foreground hover:text-foreground hover:cursor-pointer" :is="Save"  @click="downloadInvoice(invoice.id)"/>
+                            <component class="w-4 text-muted-light-blue" :is="Copy" @click="navigateToInvoice('clone', invoice.id)"/>
                         </TableCell>
                     </TableRow>
                 </TableBody>

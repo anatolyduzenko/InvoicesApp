@@ -4,7 +4,7 @@ import { useGoBack } from '@/composables/useGoBack';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
-import { ArrowLeft, Edit } from 'lucide-vue-next';
+import { ArrowLeft, Edit, Save, Printer } from 'lucide-vue-next';
 import CustomerInfo from './parts/CustomerInfo.vue';
 import AccountInfo from './parts/AccountInfo.vue';
 import InvoiceItems from './InvoiceItems.vue';
@@ -23,7 +23,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function editinvoice(id: any) {
+function editInvoice(id: any) {
     router.get(
         route('invoices.edit', { invoice: id }),
         {},
@@ -34,8 +34,17 @@ function editinvoice(id: any) {
     );
 }
 
-const title = computed(() => (props.invoice?.id ? 'Invoice ' + props.invoice?.number : 'New invoice'));
+function viewInvoice(id: any) {
+    const url = route('invoices.preview', { invoice: id });
+    window.open(url, '_blank');
+}
 
+function downloadInvoice(id: any) {
+    const url = route('invoices.download', { invoice: id });
+    window.open(url, '_blank');
+}
+
+const title = computed(() => (props.invoice?.id ? 'Invoice ' + props.invoice?.number : 'New invoice'));
 </script>
 
 <template>
@@ -48,11 +57,13 @@ const title = computed(() => (props.invoice?.id ? 'Invoice ' + props.invoice?.nu
                         <h2 class="flex-grow text-lg font-semibold">Invoice Info</h2>
                         <button
                             v-if="props.invoice?.id"
-                            @click="editinvoice(props.invoice.id)"
+                            @click="editInvoice(props.invoice.id)"
                             class="mr-2 text-sm text-muted-light-green hover:text-light-green hover:cursor-pointer"
                         >
                             <component :is="Edit" />
                         </button>
+                        <button @click="viewInvoice(props.invoice?.id)" class="mr-2 text-sm text-muted-foreground hover:text-foreground hover:cursor-pointer"><component :is="Printer" /></button>
+                        <button @click="downloadInvoice(props.invoice?.id)" class="mr-2 text-sm text-muted-foreground hover:text-foreground hover:cursor-pointer"><component :is="Save" /></button>
                         <button @click="goBack" class="text-sm text-muted-foreground hover:text-foreground hover:cursor-pointer"><component :is="ArrowLeft" /></button>
                     </div>
 
