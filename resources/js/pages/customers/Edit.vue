@@ -12,7 +12,7 @@ import { Head, router, usePage } from '@inertiajs/vue3';
 import { toTypedSchema } from '@vee-validate/zod';
 import { ArrowLeft, Save, Trash } from 'lucide-vue-next';
 import { FlattenAndSetPathsType, useForm } from 'vee-validate';
-import { computed, watchEffect } from 'vue';
+import { computed, watchEffect, capitalize } from 'vue';
 import { toast } from 'vue-sonner';
 import * as z from 'zod';
 
@@ -32,6 +32,7 @@ const formSchema = z.object({
     email: z.string().min(5).max(100),
     phone: z.string().min(5).max(100),
     currency: z.coerce.string().min(3).max(5),
+    template_name: z.coerce.string().min(3),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -45,6 +46,7 @@ const customerForm = useForm({
         phone: props.customer?.phone ?? '',
         country: props.customer?.country ?? '',
         currency: props.customer?.currency ?? 'USD',
+        template_name: props.customer?.template_name ?? 'basic',
     },
     initialErrors: page.props.errors as unknown as FlattenAndSetPathsType<FormValues, string>,
 });
@@ -77,6 +79,7 @@ watchEffect(() => {
         customerForm.setFieldError('email', page.props.errors?.email);
         customerForm.setFieldError('phone', page.props.errors?.phone);
         customerForm.setFieldError('currency', page.props.errors?.currency);
+        customerForm.setFieldError('template_name', page.props.errors?.template_name);
         customerForm.setFieldError('country', page.props.errors?.country);
     }
 
@@ -95,7 +98,7 @@ watchEffect(() => {
                 <CardContent>
                     <div class="flex items-center justify-between border-b p-4">
                         <h2 class="flex-grow text-lg font-semibold">
-                            {{ props.customer?.id ? 'Edit customer: ' + props.customer.customer : 'New customer' }}
+                            {{ props.customer?.id ? 'Edit customer: ' + props.customer?.name : 'New customer' }}
                         </h2>
                         <button
                             v-if="props.customer?.id"
@@ -109,17 +112,63 @@ watchEffect(() => {
 
                     <div class="space-y-6 p-4">
                         <form @submit.prevent="onSubmit">
-                            <div class="flex items-start justify-between">
-                                <FormField v-slot="{ componentField }" name="name">
-                                    <FormItem class="grow pr-4">
-                                        <FormLabel>Customer's Name: </FormLabel>
+                            <FormField v-slot="{ componentField }" name="name">
+                                <FormItem class="">
+                                    <FormLabel>Customer's Name: </FormLabel>
+                                    <FormControl>
+                                        <Input type="text" placeholder="Customer's Name" v-bind="componentField" />
+                                    </FormControl>
+                                    <FormDescription />
+                                    <FormMessage />
+                                </FormItem>
+                            </FormField>
+                            <div class="grid grid-cols-2 gap-6 pt-2">
+                                <FormField v-slot="{ componentField }" name="email">
+                                    <FormItem>
+                                        <FormLabel>Email: </FormLabel>
                                         <FormControl>
-                                            <Input type="text" placeholder="Customer's Name" v-bind="componentField" />
+                                            <Input type="email" placeholder="Email Address" v-bind="componentField" />
                                         </FormControl>
                                         <FormDescription />
                                         <FormMessage />
                                     </FormItem>
                                 </FormField>
+                                <FormField v-slot="{ componentField }" name="phone">
+                                    <FormItem>
+                                        <FormLabel>Phone: </FormLabel>
+                                        <FormControl>
+                                            <Input type="tel" placeholder="Phone Number" v-bind="componentField" />
+                                        </FormControl>
+                                        <FormDescription />
+                                        <FormMessage />
+                                    </FormItem>
+                                </FormField>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-6 pt-2 items-start">
+                                <FormField v-slot="{ componentField }" name="country">
+                                    <FormItem>
+                                        <FormLabel>Country: </FormLabel>
+                                        <FormControl>
+                                            <Input type="text" placeholder="country" v-bind="componentField" />
+                                        </FormControl>
+                                        <FormDescription />
+                                        <FormMessage />
+                                    </FormItem>
+                                </FormField>
+
+                                <FormField v-slot="{ componentField }" name="address">
+                                    <FormItem >
+                                        <FormLabel>Address: </FormLabel>
+                                        <FormControl>
+                                            <Textarea placeholder="Address" v-bind="componentField" />
+                                        </FormControl>
+                                        <FormDescription />
+                                        <FormMessage />
+                                    </FormItem>
+                                </FormField>
+                            </div>
+                            <div class="grid grid-cols-2 gap-6 pt-2 items-start">
                                 <FormField v-slot="{ componentField }" name="currency">
                                     <FormItem>
                                         <FormLabel>Currency: </FormLabel>
@@ -139,50 +188,26 @@ watchEffect(() => {
                                         <FormMessage />
                                     </FormItem>
                                 </FormField>
+
+                                <FormField v-slot="{ componentField }" name="template_name">
+                                    <FormItem>
+                                        <FormLabel>Invoice Template: </FormLabel>
+                                        <FormControl>
+                                            <Select v-bind="componentField">
+                                                <SelectTrigger class="w-[180px]">
+                                                    <SelectValue placeholder="Invoice template" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="basic"> Basic </SelectItem>
+                                                    <SelectItem value="modern"> Modern </SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormControl>
+                                        <FormDescription />
+                                        <FormMessage />
+                                    </FormItem>
+                                </FormField>
                             </div>
-                            <FormField v-slot="{ componentField }" name="email">
-                                <FormItem>
-                                    <FormLabel>Email: </FormLabel>
-                                    <FormControl>
-                                        <Input type="email" placeholder="Email Address" v-bind="componentField" />
-                                    </FormControl>
-                                    <FormDescription />
-                                    <FormMessage />
-                                </FormItem>
-                            </FormField>
-                            <FormField v-slot="{ componentField }" name="phone">
-                                <FormItem>
-                                    <FormLabel>Phone: </FormLabel>
-                                    <FormControl>
-                                        <Input type="tel" placeholder="Phone Number" v-bind="componentField" />
-                                    </FormControl>
-                                    <FormDescription />
-                                    <FormMessage />
-                                </FormItem>
-                            </FormField>
-
-                            <FormField v-slot="{ componentField }" name="country">
-                                <FormItem>
-                                    <FormLabel>Country: </FormLabel>
-                                    <FormControl>
-                                        <Input type="text" placeholder="country" v-bind="componentField" />
-                                    </FormControl>
-                                    <FormDescription />
-                                    <FormMessage />
-                                </FormItem>
-                            </FormField>
-
-                            <FormField v-slot="{ componentField }" name="address">
-                                <FormItem>
-                                    <FormLabel>Address: </FormLabel>
-                                    <FormControl>
-                                        <Textarea placeholder="Address" v-bind="componentField" />
-                                    </FormControl>
-                                    <FormDescription />
-                                    <FormMessage />
-                                </FormItem>
-                            </FormField>
-
                             <Button type="submit" class="mt-2 hover:text-light-green"><component :is="Save" />Save customer</Button>
                         </form>
                     </div>

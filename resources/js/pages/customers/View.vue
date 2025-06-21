@@ -5,6 +5,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/vue3';
 import { ArrowLeft, Edit } from 'lucide-vue-next';
+import { capitalize } from 'vue';
 
 const { goBack } = useGoBack();
 
@@ -81,6 +82,11 @@ function editcustomer(id: any) {
                                 <div>
                                     <p class="text-sm text-muted-foreground">Address</p>
                                     <p class="text-md font-medium">{{ props.customer.address }}</p>
+                                </div>
+
+                                <div>
+                                    <p class="text-sm text-muted-foreground">Invoice Template</p>
+                                    <p class="text-md font-medium">{{ capitalize(props.customer.template_name) }}</p>
                                 </div>
                             </div>
                         </template>

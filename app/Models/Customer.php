@@ -21,6 +21,7 @@ class Customer extends Model
         'email',
         'phone',
         'currency',
+        'template_name',
     ];
 
     public function invoices()

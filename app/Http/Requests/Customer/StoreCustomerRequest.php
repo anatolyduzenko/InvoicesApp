@@ -30,6 +30,7 @@ class StoreCustomerRequest extends FormRequest
             'email' => 'required|email:filter',
             'phone' => 'nullable|string|max:100',
             'currency' => [Rule::enum(Currency::class)],
+            'template_name' => 'nullable|string|max:50',
         ];
     }
 }
