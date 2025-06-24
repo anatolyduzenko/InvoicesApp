@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 final class AccountRepository implements AccountRepositoryInterface
 {
     /**
-     * Create a new class instance.
+     * Stores a new account instance.
      */
     public function store(array $data): Account
     {
@@ -18,7 +18,11 @@ final class AccountRepository implements AccountRepositoryInterface
             return Account::create($data);
         });
     }
-
+    
+    /**
+     * Updates account instance.
+     */
+    
     public function update(Account $account, array $data): Account
     {
         return DB::transaction(function () use ($account, $data) {
@@ -28,6 +32,10 @@ final class AccountRepository implements AccountRepositoryInterface
         });
     }
 
+    /**
+     * Deletes instance.
+     */
+    
     public function delete(Account $account): void
     {
         DB::transaction(function () use ($account) {
@@ -38,6 +46,9 @@ final class AccountRepository implements AccountRepositoryInterface
         });
     }
 
+    /**
+     * Retrieves a list of accounts with filters.
+     */
     public function getAll(array $filters = [], array $with = [], $perPage = 20): LengthAwarePaginator
     {
         $query = Account::with($with)->latest();

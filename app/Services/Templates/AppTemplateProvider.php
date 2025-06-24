@@ -5,6 +5,9 @@ use App\Interfaces\TemplateProviderInterface;
 
 class AppTemplateProvider implements TemplateProviderInterface
 {
+    /**
+     * Provides a list of available invoice templates.
+     */
     public function getTemplates(): array
     {
         return [

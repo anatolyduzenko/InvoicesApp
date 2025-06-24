@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 final class CustomerRepository implements CustomerRepositoryInterface
 {
     /**
-     * Create a new class instance.
+     * Stores a new customer instance.
      */
     public function store(array $data): Customer
     {
@@ -19,6 +19,9 @@ final class CustomerRepository implements CustomerRepositoryInterface
         });
     }
 
+    /**
+     * Updates customer instance.
+     */
     public function update(Customer $customer, array $data): Customer
     {
         return DB::transaction(function () use ($customer, $data) {
@@ -28,6 +31,9 @@ final class CustomerRepository implements CustomerRepositoryInterface
         });
     }
 
+    /**
+     * Deletes customer instance.
+     */
     public function delete(Customer $customer): void
     {
         DB::transaction(function () use ($customer) {
@@ -39,6 +45,9 @@ final class CustomerRepository implements CustomerRepositoryInterface
         });
     }
 
+    /**
+     * Retrieves a list of customers with filters.
+     */
     public function getAll(array $filters = [], array $with = [], $perPage = 20): LengthAwarePaginator
     {
         $query = Customer::with($with)->latest();

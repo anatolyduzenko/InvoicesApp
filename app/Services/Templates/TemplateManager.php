@@ -11,6 +11,9 @@ class TemplateManager
         $this->providers = array_filter($providers);
     }
 
+    /**
+     * Retrieves a list of available templates.
+     */
     public function all(): array
     {
         return collect($this->providers)
@@ -18,6 +21,9 @@ class TemplateManager
             ->toArray();
     }
 
+    /**
+     * Returns view name based on used template.
+     */
     public function getViewByKey(string $key): ?string
     {
         $all = $this->all();

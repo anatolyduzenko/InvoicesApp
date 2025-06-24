@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 final class InvoiceRepository implements InvoiceRepositoryInterface
 {
     /**
-     * Create a new class instance.
+     * Stores a new invoice instance.
      */
     public function store(array $data): Invoice
     {
@@ -28,6 +28,9 @@ final class InvoiceRepository implements InvoiceRepositoryInterface
         });
     }
 
+    /**
+     * Updates invoice instance.
+     */
     public function update(Invoice $invoice, array $data): Invoice
     {
         return DB::transaction(function () use ($invoice, $data) {

@@ -9,6 +9,10 @@ use App\Services\Templates\TemplateManager;
 
 class InvoiceViewController extends Controller
 {
+
+    /**
+     * Preview invoice for printing.
+     */
     public function show(Invoice $invoice, TemplateManager $templateManager)
     {
         $invoice->load(['items', 'account', 'company', 'customer']);
@@ -18,6 +22,9 @@ class InvoiceViewController extends Controller
         return view($view, compact('invoice'));
     }
 
+    /**
+     * Generates PDF file with invoice data.
+     */
     public function download(Invoice $invoice, TemplateManager $templateManager)
     {
         $tempPath = storage_path('app/public/' . Str ::uuid() . '.pdf');
