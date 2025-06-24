@@ -88,6 +88,8 @@ watchEffect(() => {
         toast.success(success);
     }
 });
+
+console.log(page.props.templates)
 </script>
 
 <template>
@@ -194,12 +196,11 @@ watchEffect(() => {
                                         <FormLabel>Invoice Template: </FormLabel>
                                         <FormControl>
                                             <Select v-bind="componentField">
-                                                <SelectTrigger class="w-[180px]">
+                                                <SelectTrigger class="w-full">
                                                     <SelectValue placeholder="Invoice template" />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="basic"> Basic </SelectItem>
-                                                    <SelectItem value="modern"> Modern </SelectItem>
+                                                    <SelectItem v-for="(label, template) in page.props?.templates" :key="template" :value="template"> {{ label.name }}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>

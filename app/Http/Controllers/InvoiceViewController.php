@@ -5,25 +5,30 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use App\Models\Invoice;
+use App\Services\Templates\TemplateManager;
 
 class InvoiceViewController extends Controller
 {
-    public function show(Invoice $invoice)
+    public function show(Invoice $invoice, TemplateManager $templateManager)
     {
         $invoice->load(['items', 'account', 'company', 'customer']);
 
-        return view('invoices.pdf', compact('invoice'));
+        $view = $templateManager->getViewByKey($invoice->customer->template_name ?? 'default');
+
+        return view($view, compact('invoice'));
     }
 
-    public function download(Invoice $invoice)
+    public function download(Invoice $invoice, TemplateManager $templateManager)
     {
         $tempPath = storage_path('app/public/' . Str ::uuid() . '.pdf');
 
-        $html = view('invoices.pdf',  [
+        $view = $templateManager->getViewByKey($invoice->customer->template_name ?? 'default');
+
+        $html = view($view,  [
             'invoice' => $invoice->load(['items', 'account', 'company', 'customer'])
         ])->render();
 
-        $response = Http::post('http://puppeteer:3000/generate-pdf', [
+        $response = Http::timeout(60)->post('http://puppeteer:3000/generate-pdf', [
             'html' => $html
         ]);
         

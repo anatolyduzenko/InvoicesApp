@@ -6,6 +6,7 @@ use App\Http\Requests\Customer\StoreCustomerRequest;
 use App\Http\Requests\Customer\UpdateCustomerRequest;
 use App\Models\Customer;
 use App\Repositories\CustomerRepository;
+use App\Services\Templates\TemplateManager;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
@@ -25,9 +26,11 @@ class CustomerController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(TemplateManager $templateManager)
     {
-        return Inertia::render('customers/Edit');
+        return Inertia::render('customers/Edit', [
+            'templates' => $templateManager->all()
+        ]);
     }
 
     /**
@@ -53,10 +56,11 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Customer $customer)
+    public function edit(Customer $customer, TemplateManager $templateManager)
     {
         return Inertia::render('customers/Edit', [
             'customer' => $customer,
+            'templates' => $templateManager->all()
         ]);
     }
 
