@@ -28,7 +28,13 @@ class InvoiceViewController extends Controller
             'invoice' => $invoice->load(['items', 'account', 'company', 'customer'])
         ])->render();
 
-        $response = Http::timeout(60)->post('http://puppeteer:3000/generate-pdf', [
+        $url = sprintf(
+            'http://%s:%s/generate-pdf',
+            config('puppeteer.host'),
+            config('puppeteer.port')
+        );
+
+        $response = Http::timeout(60)->post($url, [
             'html' => $html
         ]);
         
