@@ -9,16 +9,12 @@ use App\Http\Controllers\InvoiceViewController;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\Invoice;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
+    return redirect('dashboard');
+})->middleware(['auth', 'verified'])->name('home');
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard', [
