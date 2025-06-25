@@ -22,7 +22,7 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
         Session::start();
-        
+
         $response = $this->post('/login', [
             '_token' => csrf_token(),
             'email' => $user->email,
@@ -52,7 +52,7 @@ class AuthenticationTest extends TestCase
         $user = User::factory()->create();
         Session::start();
 
-        $response = $this->actingAs($user)->post('/logout', ['_token' => csrf_token(),]);
+        $response = $this->actingAs($user)->post('/logout', ['_token' => csrf_token()]);
 
         $this->assertGuest();
         $response->assertRedirect('/');

@@ -39,7 +39,7 @@ class PasswordConfirmationTest extends TestCase
     {
         $user = User::factory()->create();
         Session::start();
-        
+
         $response = $this->actingAs($user)->post('/confirm-password', [
             'password' => 'wrong-password',
             '_token' => csrf_token(),
