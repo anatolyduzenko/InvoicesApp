@@ -18,11 +18,10 @@ final class AccountRepository implements AccountRepositoryInterface
             return Account::create($data);
         });
     }
-    
+
     /**
      * Updates account instance.
      */
-    
     public function update(Account $account, array $data): Account
     {
         return DB::transaction(function () use ($account, $data) {
@@ -35,7 +34,6 @@ final class AccountRepository implements AccountRepositoryInterface
     /**
      * Deletes instance.
      */
-    
     public function delete(Account $account): void
     {
         DB::transaction(function () use ($account) {

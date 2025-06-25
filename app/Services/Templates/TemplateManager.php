@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Services\Templates;
 
@@ -17,7 +17,7 @@ class TemplateManager
     public function all(): array
     {
         return collect($this->providers)
-            ->flatMap(fn($provider) => $provider->getTemplates())
+            ->flatMap(fn ($provider) => $provider->getTemplates())
             ->toArray();
     }
 
@@ -27,6 +27,7 @@ class TemplateManager
     public function getViewByKey(string $key): ?string
     {
         $all = $this->all();
+
         return $all[$key]['view'] ?? null;
     }
 }

@@ -29,7 +29,7 @@ class CustomerController extends Controller
     public function create(TemplateManager $templateManager)
     {
         return Inertia::render('customers/Edit', [
-            'templates' => $templateManager->all()
+            'templates' => $templateManager->all(),
         ]);
     }
 
@@ -60,7 +60,7 @@ class CustomerController extends Controller
     {
         return Inertia::render('customers/Edit', [
             'customer' => $customer,
-            'templates' => $templateManager->all()
+            'templates' => $templateManager->all(),
         ]);
     }
 

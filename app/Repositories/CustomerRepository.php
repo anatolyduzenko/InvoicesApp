@@ -37,7 +37,6 @@ final class CustomerRepository implements CustomerRepositoryInterface
     public function delete(Customer $customer): void
     {
         DB::transaction(function () use ($customer) {
-            dd($customer);
             foreach ($customer->invoices as $invoice) {
                 (new InvoiceRepository)->delete($invoice);
             }

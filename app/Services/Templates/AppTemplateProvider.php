@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Templates;
 
 use App\Interfaces\TemplateProviderInterface;
@@ -13,12 +14,12 @@ class AppTemplateProvider implements TemplateProviderInterface
         return [
             'basic' => [
                 'name' => 'Basic Invoice Template',
-                'view' => 'invoices.basic'
+                'view' => 'invoices.basic',
             ],
-            'modern' => [ 
+            'modern' => [
                 'name' => 'Modern Invoice Template',
-                'view' => 'invoices.modern'
-            ]
+                'view' => 'invoices.modern',
+            ],
         ];
     }
 }
