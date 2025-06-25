@@ -55,7 +55,7 @@ class AccountControllerTest extends TestCase
         $response = $this->post(route('accounts.store'), $data);
 
         $response->assertRedirect(route('accounts.index'));
-        $this->assertDatabaseHas('accounts', ['intermediary' => 'Interbank']);
+        $this->assertDatabaseHas('accounts', ['intermediary' => 'InterBank']);
     }
 
     public function test_show_displays_account_details()
