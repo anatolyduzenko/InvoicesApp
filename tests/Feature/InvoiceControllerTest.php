@@ -1,12 +1,12 @@
-<?php 
+<?php
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Account;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Session;
@@ -66,13 +66,13 @@ class InvoiceControllerTest extends TestCase
             'total_amount' => 100,
             'items' => [
                 [
-                    'id' => 1000000000021000021, 
-                    'description' => 'Test Item', 
-                    'unit' => 'hour', 
-                    'qty' => 2, 
+                    'id' => 1000000000021000021,
+                    'description' => 'Test Item',
+                    'unit' => 'hour',
+                    'qty' => 2,
                     'price' => 50,
-                    'amount' => 100
-                ]
+                    'amount' => 100,
+                ],
             ],
         ]);
 
@@ -115,12 +115,11 @@ class InvoiceControllerTest extends TestCase
         $response = $this->get(route('invoices.create'));
 
         $response->assertOk();
-        $response->assertInertia(fn (Assert $page) =>
-            $page->component('invoices/Edit')
-                ->has('company')
-                ->has('accounts')
-                ->has('customers')
-                ->has('invoice')
+        $response->assertInertia(fn (Assert $page) => $page->component('invoices/Edit')
+            ->has('company')
+            ->has('accounts')
+            ->has('customers')
+            ->has('invoice')
         );
     }
 
@@ -163,12 +162,11 @@ class InvoiceControllerTest extends TestCase
         $response = $this->get(route('invoices.edit', $invoice));
 
         $response->assertOk();
-        $response->assertInertia(fn (Assert $page) =>
-            $page->component('invoices/Edit')
-                ->has('invoice')
-                ->has('accounts')
-                ->has('company')
-                ->has('customers')
+        $response->assertInertia(fn (Assert $page) => $page->component('invoices/Edit')
+            ->has('invoice')
+            ->has('accounts')
+            ->has('company')
+            ->has('customers')
         );
     }
 
@@ -271,13 +269,13 @@ class InvoiceControllerTest extends TestCase
             '_token' => csrf_token(),
             'items' => [
                 [
-                    'id' => 1000000000021000021, 
-                    'description' => 'Test Item', 
-                    'unit' => 'hour', 
-                    'qty' => 2, 
+                    'id' => 1000000000021000021,
+                    'description' => 'Test Item',
+                    'unit' => 'hour',
+                    'qty' => 2,
                     'price' => 50,
-                    'amount' => 100
-                ]
+                    'amount' => 100,
+                ],
             ],
         ]);
 
@@ -289,5 +287,4 @@ class InvoiceControllerTest extends TestCase
             'total_amount' => 2000,
         ]);
     }
-
 }

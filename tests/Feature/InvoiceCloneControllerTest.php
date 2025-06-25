@@ -7,8 +7,6 @@ use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
@@ -57,28 +55,25 @@ class InvoiceCloneControllerTest extends TestCase
             'due_date' => now()->addDays(7),
             'items' => [
                 [
-                    'id' => 1000000000021000021, 
-                    'description' => 'Test Item', 
-                    'unit' => 'hour', 
-                    'qty' => 2, 
+                    'id' => 1000000000021000021,
+                    'description' => 'Test Item',
+                    'unit' => 'hour',
+                    'qty' => 2,
                     'price' => 50,
-                    'amount' => 100
-                ]
+                    'amount' => 100,
+                ],
             ],
         ]);
 
         $response = $this->get(route('invoices.clone', $invoice));
 
         $response->assertOk();
-        $response->assertInertia(fn ($page) =>
-            $page->component('invoices/Edit')
-                ->has('accounts')
-                ->has('company')
-                ->has('customers')
-                ->has('invoice', fn ($props) =>
-                    $props->where('number', 'INV-00002')->etc()
-                )
+        $response->assertInertia(fn ($page) => $page->component('invoices/Edit')
+            ->has('accounts')
+            ->has('company')
+            ->has('customers')
+            ->has('invoice', fn ($props) => $props->where('number', 'INV-00002')->etc()
+            )
         );
     }
-
 }

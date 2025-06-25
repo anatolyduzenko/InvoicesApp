@@ -91,7 +91,7 @@ class ProfileUpdateTest extends TestCase
     {
         $user = User::factory()->create();
         Session::start();
-        
+
         $response = $this
             ->actingAs($user)
             ->from('/settings/profile')

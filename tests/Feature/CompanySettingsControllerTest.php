@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Tests\Feature;
 
@@ -25,17 +25,15 @@ class CompanySettingsControllerTest extends TestCase
         ]);
 
         $user = User::factory()->create();
-        
+
         $response = $this->actingAs($user)->get(route('company-settings.show'));
 
         $response->assertStatus(200);
-        $response->assertInertia(fn ($page) =>
-            $page->component('companySettings/Form')
-                 ->has('companySettings', fn ($props) =>
-                    $props->where('company_name', 'Test Co.')
-                          ->where('company_email', 'info@test.com')
-                          ->etc()
-                 )
+        $response->assertInertia(fn ($page) => $page->component('companySettings/Form')
+            ->has('companySettings', fn ($props) => $props->where('company_name', 'Test Co.')
+                ->where('company_email', 'info@test.com')
+                ->etc()
+            )
         );
     }
 
@@ -60,7 +58,7 @@ class CompanySettingsControllerTest extends TestCase
             'company_terms' => 'Updated terms',
             '_token' => csrf_token(),
         ]);
-        
+
         $response->assertRedirect(route('company-settings.show'));
         $this->assertDatabaseHas('companies', [
             'company_name' => 'New Co.',
@@ -100,6 +98,6 @@ class CompanySettingsControllerTest extends TestCase
             'company_email' => 'logo@example.com',
         ]);
 
-        Storage::disk('public')->assertExists('logos/' . $file->hashName());
+        Storage::disk('public')->assertExists('logos/'.$file->hashName());
     }
 }

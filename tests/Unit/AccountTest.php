@@ -25,6 +25,7 @@ class AccountTest extends TestCase
             'beneficiary' => 'John Doe',
         ]);
     }
+
     public function test_it_soft_deletes_an_account()
     {
         $account = Account::create([
